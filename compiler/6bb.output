@@ -1,0 +1,238 @@
+State 14 conflicts: 3 shift/reduce
+State 17 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: line $end
+
+    1 line: all
+
+    2 all: formula ARROW formula
+
+    3 formula: INUMBER compound
+    4        | formula '+' formula
+    5        | compound
+
+    6 compound: ELEMENT
+    7         | compound INUMBER
+    8         | '(' compound ')'
+    9         | compound compound
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 8
+')' (41) 8
+'+' (43) 4
+error (256)
+INUMBER (258) 3 7
+ELEMENT (259) 6
+ARROW (260) 2
+
+
+Nonterminals, with rules where they appear
+
+$accept (9)
+    on left: 0
+line (10)
+    on left: 1, on right: 0
+all (11)
+    on left: 2, on right: 1
+formula (12)
+    on left: 3 4 5, on right: 2 4
+compound (13)
+    on left: 6 7 8 9, on right: 3 5 7 8 9
+
+
+State 0
+
+    0 $accept: . line $end
+
+    INUMBER  shift, and go to state 1
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    line      go to state 4
+    all       go to state 5
+    formula   go to state 6
+    compound  go to state 7
+
+
+State 1
+
+    3 formula: INUMBER . compound
+
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    compound  go to state 8
+
+
+State 2
+
+    6 compound: ELEMENT .
+
+    $default  reduce using rule 6 (compound)
+
+
+State 3
+
+    8 compound: '(' . compound ')'
+
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    compound  go to state 9
+
+
+State 4
+
+    0 $accept: line . $end
+
+    $end  shift, and go to state 10
+
+
+State 5
+
+    1 line: all .
+
+    $default  reduce using rule 1 (line)
+
+
+State 6
+
+    2 all: formula . ARROW formula
+    4 formula: formula . '+' formula
+
+    ARROW  shift, and go to state 11
+    '+'    shift, and go to state 12
+
+
+State 7
+
+    5 formula: compound .
+    7 compound: compound . INUMBER
+    9         | compound . compound
+
+    INUMBER  shift, and go to state 13
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    $default  reduce using rule 5 (formula)
+
+    compound  go to state 14
+
+
+State 8
+
+    3 formula: INUMBER compound .
+    7 compound: compound . INUMBER
+    9         | compound . compound
+
+    INUMBER  shift, and go to state 13
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    $default  reduce using rule 3 (formula)
+
+    compound  go to state 14
+
+
+State 9
+
+    7 compound: compound . INUMBER
+    8         | '(' compound . ')'
+    9         | compound . compound
+
+    INUMBER  shift, and go to state 13
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+    ')'      shift, and go to state 15
+
+    compound  go to state 14
+
+
+State 10
+
+    0 $accept: line $end .
+
+    $default  accept
+
+
+State 11
+
+    2 all: formula ARROW . formula
+
+    INUMBER  shift, and go to state 1
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    formula   go to state 16
+    compound  go to state 7
+
+
+State 12
+
+    4 formula: formula '+' . formula
+
+    INUMBER  shift, and go to state 1
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    formula   go to state 17
+    compound  go to state 7
+
+
+State 13
+
+    7 compound: compound INUMBER .
+
+    $default  reduce using rule 7 (compound)
+
+
+State 14
+
+    7 compound: compound . INUMBER
+    9         | compound . compound
+    9         | compound compound .
+
+    INUMBER  shift, and go to state 13
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    INUMBER   [reduce using rule 9 (compound)]
+    ELEMENT   [reduce using rule 9 (compound)]
+    '('       [reduce using rule 9 (compound)]
+    $default  reduce using rule 9 (compound)
+
+    compound  go to state 14
+
+
+State 15
+
+    8 compound: '(' compound ')' .
+
+    $default  reduce using rule 8 (compound)
+
+
+State 16
+
+    2 all: formula ARROW formula .
+    4 formula: formula . '+' formula
+
+    '+'  shift, and go to state 12
+
+    $default  reduce using rule 2 (all)
+
+
+State 17
+
+    4 formula: formula . '+' formula
+    4        | formula '+' formula .
+
+    '+'  shift, and go to state 12
+
+    '+'       [reduce using rule 4 (formula)]
+    $default  reduce using rule 4 (formula)

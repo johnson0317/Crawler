@@ -1,0 +1,238 @@
+State 14 conflicts: 3 shift/reduce
+State 17 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: line $end
+
+    1 line: all
+
+    2 all: fml ARROW fml
+
+    3 fml: INUMBER comp
+    4    | fml '+' fml
+    5    | comp
+
+    6 comp: ELEMENT
+    7     | '(' comp ')'
+    8     | comp INUMBER
+    9     | comp comp
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 7
+')' (41) 7
+'+' (43) 4
+error (256)
+INUMBER (258) 3 8
+ELEMENT (259) 6
+ARROW (260) 2
+
+
+Nonterminals, with rules where they appear
+
+$accept (9)
+    on left: 0
+line (10)
+    on left: 1, on right: 0
+all (11)
+    on left: 2, on right: 1
+fml (12)
+    on left: 3 4 5, on right: 2 4
+comp (13)
+    on left: 6 7 8 9, on right: 3 5 7 8 9
+
+
+State 0
+
+    0 $accept: . line $end
+
+    INUMBER  shift, and go to state 1
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    line  go to state 4
+    all   go to state 5
+    fml   go to state 6
+    comp  go to state 7
+
+
+State 1
+
+    3 fml: INUMBER . comp
+
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    comp  go to state 8
+
+
+State 2
+
+    6 comp: ELEMENT .
+
+    $default  reduce using rule 6 (comp)
+
+
+State 3
+
+    7 comp: '(' . comp ')'
+
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    comp  go to state 9
+
+
+State 4
+
+    0 $accept: line . $end
+
+    $end  shift, and go to state 10
+
+
+State 5
+
+    1 line: all .
+
+    $default  reduce using rule 1 (line)
+
+
+State 6
+
+    2 all: fml . ARROW fml
+    4 fml: fml . '+' fml
+
+    ARROW  shift, and go to state 11
+    '+'    shift, and go to state 12
+
+
+State 7
+
+    5 fml: comp .
+    8 comp: comp . INUMBER
+    9     | comp . comp
+
+    INUMBER  shift, and go to state 13
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    $default  reduce using rule 5 (fml)
+
+    comp  go to state 14
+
+
+State 8
+
+    3 fml: INUMBER comp .
+    8 comp: comp . INUMBER
+    9     | comp . comp
+
+    INUMBER  shift, and go to state 13
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    $default  reduce using rule 3 (fml)
+
+    comp  go to state 14
+
+
+State 9
+
+    7 comp: '(' comp . ')'
+    8     | comp . INUMBER
+    9     | comp . comp
+
+    INUMBER  shift, and go to state 13
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+    ')'      shift, and go to state 15
+
+    comp  go to state 14
+
+
+State 10
+
+    0 $accept: line $end .
+
+    $default  accept
+
+
+State 11
+
+    2 all: fml ARROW . fml
+
+    INUMBER  shift, and go to state 1
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    fml   go to state 16
+    comp  go to state 7
+
+
+State 12
+
+    4 fml: fml '+' . fml
+
+    INUMBER  shift, and go to state 1
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    fml   go to state 17
+    comp  go to state 7
+
+
+State 13
+
+    8 comp: comp INUMBER .
+
+    $default  reduce using rule 8 (comp)
+
+
+State 14
+
+    8 comp: comp . INUMBER
+    9     | comp . comp
+    9     | comp comp .
+
+    INUMBER  shift, and go to state 13
+    ELEMENT  shift, and go to state 2
+    '('      shift, and go to state 3
+
+    INUMBER   [reduce using rule 9 (comp)]
+    ELEMENT   [reduce using rule 9 (comp)]
+    '('       [reduce using rule 9 (comp)]
+    $default  reduce using rule 9 (comp)
+
+    comp  go to state 14
+
+
+State 15
+
+    7 comp: '(' comp ')' .
+
+    $default  reduce using rule 7 (comp)
+
+
+State 16
+
+    2 all: fml ARROW fml .
+    4 fml: fml . '+' fml
+
+    '+'  shift, and go to state 12
+
+    $default  reduce using rule 2 (all)
+
+
+State 17
+
+    4 fml: fml . '+' fml
+    4    | fml '+' fml .
+
+    '+'  shift, and go to state 12
+
+    '+'       [reduce using rule 4 (fml)]
+    $default  reduce using rule 4 (fml)
